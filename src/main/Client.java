@@ -20,17 +20,31 @@ public class Client {
 		
 	}
 	
-	public static void getClients() throws FileNotFoundException, IOException{
+	public static boolean getClients() throws FileNotFoundException, IOException{
+		boolean valide = true;
 		String file = "src/commandes.txt";
 		try(BufferedReader br = new BufferedReader(new FileReader(file))){
 			String line;
+			
 			while(!(line = br.readLine()).equals("Plats :")){
-				if(!line.equals("Clients :")){
-					clientList.add(new Client(line));
-				}
+				
+					if(!line.equals("Clients :")){
+						if(line.matches("^[a-zA-Z]+$")){
+							clientList.add(new Client(line));
+							
+						} else {
+							System.out.println("Format client invalide : " + line);
+							valide = false;
+							break;
+						}
+						
+					}
+				
 				
 			}
 		}
+		
+		return valide;
 	}
 	
 	public static ArrayList<Client> getListeClient(){
